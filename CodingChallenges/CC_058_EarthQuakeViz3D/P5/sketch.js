@@ -1,7 +1,7 @@
-// Daniel Shiffman
-// http://codingtra.in
-// Earthquake Data Viz
-// Video: [coming soon]
+// 3D Earthquake Data Visualization
+// The Coding Train / Daniel Shiffman
+// https://thecodingtrain.com/CodingChallenges/058-earthquakeviz3d.html
+// https://youtu.be/dbs4IYGfAXc
 
 let angle;
 
@@ -13,9 +13,15 @@ let globe;
 
 function setup() {
   size(600, 600, P3D);
-  earth = loadImage("earth.jpg");
-  // table = loadTable("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv", "header");
-  table = loadTable("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv", "header");
+  earth = loadImage('earth.jpg');
+  // table = loadTable(
+  //   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv',
+  //   'header'
+  // );
+  table = loadTable(
+    'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv',
+    'header'
+  );
 
   noStroke();
   globe = createShape(SPHERE, r);
@@ -24,7 +30,7 @@ function setup() {
 
 function draw() {
   background(51);
-  translate(width*0.5, height*0.5);
+  translate(width * 0.5, height * 0.5);
   rotateY(angle);
   angle += 0.05;
 
@@ -35,9 +41,9 @@ function draw() {
   shape(globe);
 
   for (let row of table.rows()) {
-    let lat = row.getFloat("latitude");
-    let lon = row.getFloat("longitude");
-    let mag = row.getFloat("mag");
+    let lat = row.getFloat('latitude');
+    let lon = row.getFloat('longitude');
+    let mag = row.getFloat('mag');
 
     // original version
     // let theta = radians(lat) + PI/2;
@@ -65,8 +71,6 @@ function draw() {
     let xaxis = new PVector(1, 0, 0);
     let angleb = PVector.angleBetween(xaxis, pos);
     let raxis = xaxis.cross(pos);
-
-
 
     pushMatrix();
     translate(x, y, z);
