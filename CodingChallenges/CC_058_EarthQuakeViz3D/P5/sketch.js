@@ -3,15 +3,15 @@
 // Earthquake Data Viz
 // Video: [coming soon]
 
-float angle;
+let angle;
 
-Table table;
-float r = 200;
+let table;
+let r = 200;
 
-PImage earth;
-PShape globe;
+let earth;
+let globe;
 
-void setup() {
+function setup() {
   size(600, 600, P3D);
   earth = loadImage("earth.jpg");
   // table = loadTable("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv", "header");
@@ -22,7 +22,7 @@ void setup() {
   globe.setTexture(earth);
 }
 
-void draw() {
+function draw() {
   background(51);
   translate(width*0.5, height*0.5);
   rotateY(angle);
@@ -34,37 +34,37 @@ void draw() {
   //sphere(r);
   shape(globe);
 
-  for (TableRow row : table.rows()) {
-    float lat = row.getFloat("latitude");
-    float lon = row.getFloat("longitude");
-    float mag = row.getFloat("mag");
+  for (let row of table.rows()) {
+    let lat = row.getFloat("latitude");
+    let lon = row.getFloat("longitude");
+    let mag = row.getFloat("mag");
 
     // original version
-    // float theta = radians(lat) + PI/2;
+    // let theta = radians(lat) + PI/2;
 
     // fix: no + PI/2 needed, since latitude is between -180 and 180 deg
-    float theta = radians(lat);
+    let theta = radians(lat);
 
-    float phi = radians(lon) + PI;
+    let phi = radians(lon) + PI;
 
     // original version
-    // float x = r * sin(theta) * cos(phi);
-    // float y = -r * sin(theta) * sin(phi);
-    // float z = r * cos(theta);
+    // let x = r * sin(theta) * cos(phi);
+    // let y = -r * sin(theta) * sin(phi);
+    // let z = r * cos(theta);
 
     // fix: in OpenGL, y & z axes are flipped from math notation of spherical coordinates
-    float x = r * cos(theta) * cos(phi);
-    float y = -r * sin(theta);
-    float z = -r * cos(theta) * sin(phi);
+    let x = r * cos(theta) * cos(phi);
+    let y = -r * sin(theta);
+    let z = -r * cos(theta) * sin(phi);
 
-    PVector pos = new PVector(x, y, z);
+    let pos = new PVector(x, y, z);
 
-    float h = pow(10, mag);
-    float maxh = pow(10, 7);
+    let h = pow(10, mag);
+    let maxh = pow(10, 7);
     h = map(h, 0, maxh, 10, 100);
-    PVector xaxis = new PVector(1, 0, 0);
-    float angleb = PVector.angleBetween(xaxis, pos);
-    PVector raxis = xaxis.cross(pos);
+    let xaxis = new PVector(1, 0, 0);
+    let angleb = PVector.angleBetween(xaxis, pos);
+    let raxis = xaxis.cross(pos);
 
 
 
