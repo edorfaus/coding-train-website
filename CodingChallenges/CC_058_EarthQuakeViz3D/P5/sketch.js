@@ -3,24 +3,23 @@
 // https://thecodingtrain.com/CodingChallenges/058-earthquakeviz3d.html
 // https://youtu.be/dbs4IYGfAXc
 
-// Some small but notable changes from the Processing version that is
-// due to p5.js having a somewhat different API:
+// Some notable changes from the Processing version that are caused by
+// p5.js having a subtly different API:
 // - PVector.angleBetween(a, b) becomes abs(a.angleBetween(b))
-//       The abs() is because they have a different output range.
 // - rotate(angle, x, y, z) becomes rotate(angle, vector)
 // - table.rows() becomes table.rows (not a method call)
 // - row.getFloat() becomes row.getNum()
-// - no translate() call is needed to center the view
-// - we have to initialize the angle variable to 0 explicitly
+// - no translate() call is needed to center the view in WEBGL mode
 
 // Additionally, p5.js does not have the PShape object, but instead
 // uses the approach the video shows as not working in Processing, that
 // is, calling texture() right before the sphere() function works here.
-// This allows us to remove the globe variable and code to set it up.
+// This allows us to remove the globe variable and related setup code.
 
 // Also, since JS cannot load files synchronously, we here use the
 // preload() function of p5.js to load the texture and earthquake data.
 
+// Unlike in Processing, we have to initialize this to 0 explicitly.
 let angle = 0;
 
 let table;
@@ -52,15 +51,20 @@ function setup() {
 
 function draw() {
   background(51);
+  // We don't need to translate here, since WEBGL mode centers the view
   rotateY(angle);
   angle += 0.05;
 
   lights();
   fill(200);
   noStroke();
+  // While the video shows that this doesn't work for texturing the
+  // sphere, that's only true for Processing - in p5.js, it does work.
   texture(earth);
   sphere(r);
 
+  // The rows are here a field instead of a method, and the getFloat()
+  // method is replaced by getNum() since JS only has one number type.
   for (let row of table.rows) {
     let lat = row.getNum('latitude');
     let lon = row.getNum('longitude');
@@ -90,7 +94,16 @@ function draw() {
     let maxh = pow(10, 7);
     h = map(h, 0, maxh, 10, 100);
     let xaxis = createVector(1, 0, 0);
+
+    // Processing's PVector.angleBetween has a range from 0 to PI,
+    // while p5.js' vector.angleBetween has a range from -PI to PI.
+    // This is because it includes information about which direction
+    // the angle goes (that is, if the first vector is the X axis,
+    // whether the angle to the second vector is upwards or downwards).
+    // We don't want the direction here, just the angle itself, so we
+    // take the absolute value of the returned value to get that.
     let angleb = abs(xaxis.angleBetween(pos));
+
     let raxis = xaxis.cross(pos);
 
     push();
