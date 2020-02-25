@@ -5,7 +5,8 @@
 
 // Some small but notable changes from the Processing version that is
 // due to p5.js having a somewhat different API:
-// - PVector.angleBetween(a, b) becomes a.angleBetween(b)
+// - PVector.angleBetween(a, b) becomes abs(a.angleBetween(b))
+//       The abs() is because they have a different output range.
 // - rotate(angle, x, y, z) becomes rotate(angle, vector)
 // - table.rows() becomes table.rows (not a method call)
 // - row.getFloat() becomes row.getNum()
@@ -89,7 +90,7 @@ function draw() {
     let maxh = pow(10, 7);
     h = map(h, 0, maxh, 10, 100);
     let xaxis = createVector(1, 0, 0);
-    let angleb = xaxis.angleBetween(pos);
+    let angleb = abs(xaxis.angleBetween(pos));
     let raxis = xaxis.cross(pos);
 
     push();
