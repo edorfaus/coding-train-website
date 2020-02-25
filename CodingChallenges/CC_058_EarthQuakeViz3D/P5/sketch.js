@@ -9,6 +9,7 @@
 // - rotate(angle, x, y, z) becomes rotate(angle, vector)
 // - table.rows() becomes table.rows (not a method call)
 // - row.getFloat() becomes row.getNum()
+// - no translate() call is needed to center the view
 
 // Additionally, p5.js does not have the PShape object, but instead
 // uses the approach the video shows as not working in Processing, that
@@ -43,7 +44,6 @@ function setup() {
 
 function draw() {
   background(51);
-  translate(width * 0.5, height * 0.5);
   rotateY(angle);
   angle += 0.05;
 
