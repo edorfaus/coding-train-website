@@ -33,8 +33,14 @@ function preload() {
   //   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv',
   //   'header'
   // );
+  // table = loadTable(
+  //   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv',
+  //   'header'
+  // );
+  // This dataset is more medium sized, giving a decent number of
+  // earthquakes to look at without slowing the sketch down as much.
   table = loadTable(
-    'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv',
+    'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.csv',
     'header'
   );
 }
