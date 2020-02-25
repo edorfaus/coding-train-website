@@ -10,6 +10,7 @@
 // - table.rows() becomes table.rows (not a method call)
 // - row.getFloat() becomes row.getNum()
 // - no translate() call is needed to center the view
+// - we have to initialize the angle variable to 0 explicitly
 
 // Additionally, p5.js does not have the PShape object, but instead
 // uses the approach the video shows as not working in Processing, that
@@ -19,7 +20,7 @@
 // Also, since JS cannot load files synchronously, we here use the
 // preload() function of p5.js to load the texture and earthquake data.
 
-let angle;
+let angle = 0;
 
 let table;
 let r = 200;
