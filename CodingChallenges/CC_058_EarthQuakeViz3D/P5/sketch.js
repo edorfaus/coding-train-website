@@ -15,6 +15,9 @@
 // is, calling texture() right before the sphere() function works here.
 // This allows us to remove the globe variable and code to set it up.
 
+// Also, since JS cannot load files synchronously, we here use the
+// preload() function of p5.js to load the texture and earthquake data.
+
 let angle;
 
 let table;
@@ -22,8 +25,7 @@ let r = 200;
 
 let earth;
 
-function setup() {
-  createCanvas(600, 600, WEBGL);
+function preload() {
   earth = loadImage('earth.jpg');
   // table = loadTable(
   //   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv',
@@ -33,6 +35,10 @@ function setup() {
     'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv',
     'header'
   );
+}
+
+function setup() {
+  createCanvas(600, 600, WEBGL);
 }
 
 function draw() {
