@@ -10,13 +10,17 @@
 // - table.rows() becomes table.rows (not a method call)
 // - row.getFloat() becomes row.getNum()
 
+// Additionally, p5.js does not have the PShape object, but instead
+// uses the approach the video shows as not working in Processing, that
+// is, calling texture() right before the sphere() function works here.
+// This allows us to remove the globe variable and code to set it up.
+
 let angle;
 
 let table;
 let r = 200;
 
 let earth;
-let globe;
 
 function setup() {
   createCanvas(600, 600, WEBGL);
@@ -29,10 +33,6 @@ function setup() {
     'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv',
     'header'
   );
-
-  noStroke();
-  globe = createShape(SPHERE, r);
-  globe.setTexture(earth);
 }
 
 function draw() {
@@ -44,8 +44,8 @@ function draw() {
   lights();
   fill(200);
   noStroke();
-  //sphere(r);
-  shape(globe);
+  texture(earth);
+  sphere(r);
 
   for (let row of table.rows) {
     let lat = row.getNum('latitude');
