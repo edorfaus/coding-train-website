@@ -3,6 +3,13 @@
 // https://thecodingtrain.com/CodingChallenges/058-earthquakeviz3d.html
 // https://youtu.be/dbs4IYGfAXc
 
+// Some small but notable changes from the Processing version that is
+// due to p5.js having a somewhat different API:
+// - PVector.angleBetween(a, b) becomes a.angleBetween(b)
+// - rotate(angle, x, y, z) becomes rotate(angle, vector)
+// - table.rows() becomes table.rows (not a method call)
+// - row.getFloat() becomes row.getNum()
+
 let angle;
 
 let table;
@@ -12,7 +19,7 @@ let earth;
 let globe;
 
 function setup() {
-  size(600, 600, P3D);
+  createCanvas(600, 600, WEBGL);
   earth = loadImage('earth.jpg');
   // table = loadTable(
   //   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_day.csv',
@@ -40,10 +47,10 @@ function draw() {
   //sphere(r);
   shape(globe);
 
-  for (let row of table.rows()) {
-    let lat = row.getFloat('latitude');
-    let lon = row.getFloat('longitude');
-    let mag = row.getFloat('mag');
+  for (let row of table.rows) {
+    let lat = row.getNum('latitude');
+    let lon = row.getNum('longitude');
+    let mag = row.getNum('mag');
 
     // original version
     // let theta = radians(lat) + PI/2;
@@ -63,20 +70,21 @@ function draw() {
     let y = -r * sin(theta);
     let z = -r * cos(theta) * sin(phi);
 
-    let pos = new PVector(x, y, z);
+    let pos = createVector(x, y, z);
 
     let h = pow(10, mag);
     let maxh = pow(10, 7);
     h = map(h, 0, maxh, 10, 100);
-    let xaxis = new PVector(1, 0, 0);
-    let angleb = PVector.angleBetween(xaxis, pos);
+    let xaxis = createVector(1, 0, 0);
+    let angleb = xaxis.angleBetween(pos);
     let raxis = xaxis.cross(pos);
 
-    pushMatrix();
+    push();
     translate(x, y, z);
-    rotate(angleb, raxis.x, raxis.y, raxis.z);
+    // In p5.js, the rotation axis is a vector object instead of x,y,z
+    rotate(angleb, raxis);
     fill(255);
     box(h, 5, 5);
-    popMatrix();
+    pop();
   }
 }
