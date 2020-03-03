@@ -5,7 +5,8 @@
 
 const digits = 11;
 
-BigDecimal.precision = digits * digits + 1;
+// This must be set before using the BigDecimal class, and must be const.
+const precision = BigInt(digits * digits + 1);
 
 let c = new BigDecimal(25, 2);
 // let hundred = new BigDecimal(100);
